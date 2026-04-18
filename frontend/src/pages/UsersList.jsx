@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchWithAuth } from '../services/api';
+import toast from 'react-hot-toast';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -69,16 +70,18 @@ const UsersList = () => {
           method: 'PUT',
           body: JSON.stringify(payload)
         });
+        toast.success('Usuario actualizado correctamente.');
       } else {
         await fetchWithAuth('/users', {
           method: 'POST',
           body: JSON.stringify(formData)
         });
+        toast.success('Usuario creado correctamente.');
       }
       setIsModalOpen(false);
       loadData();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Error al guardar el usuario.');
     }
   };
 
@@ -92,10 +95,11 @@ const UsersList = () => {
         method: 'PUT',
         body: JSON.stringify({ status: confirmModal.action })
       });
+      toast.success(confirmModal.action === 'active' ? 'Usuario reactivado.' : 'Usuario desactivado.');
       setConfirmModal({ isOpen: false, id: null, action: null });
       loadData();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Error al cambiar el estado.');
     }
   };
 

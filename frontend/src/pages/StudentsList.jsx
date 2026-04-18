@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchWithAuth } from '../services/api';
+import toast from 'react-hot-toast';
 
 const StudentsList = () => {
   const [students, setStudents] = useState([]);
@@ -83,16 +84,18 @@ const StudentsList = () => {
           method: 'PUT',
           body: JSON.stringify(formData)
         });
+        toast.success('Estudiante actualizado correctamente.');
       } else {
         await fetchWithAuth('/students', {
           method: 'POST',
           body: JSON.stringify(formData)
         });
+        toast.success('Estudiante registrado correctamente.');
       }
       setIsModalOpen(false);
       loadStudents();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Error al guardar el estudiante.');
     }
   };
 
@@ -100,16 +103,18 @@ const StudentsList = () => {
     try {
       if (confirmModal.type === 'delete') {
         await fetchWithAuth(`/students/${confirmModal.id}`, { method: 'DELETE' });
+        toast.success('Estudiante eliminado.');
       } else if (confirmModal.type === 'drop') {
         await fetchWithAuth(`/students/${confirmModal.id}`, {
           method: 'PUT',
           body: JSON.stringify({ status: 'dropped' })
         });
+        toast.success('Estudiante marcado como desertor.');
       }
       setConfirmModal({ isOpen: false, id: null, type: null });
       loadStudents();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Error al procesar la operación.');
     }
   };
 

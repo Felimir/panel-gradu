@@ -28,8 +28,9 @@ function App() {
     // Healthcheck polling
     const checkApi = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-        const res = await fetch(`${apiUrl}/health`);
+        const rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const baseUrl = rawUrl.endsWith('/api') ? rawUrl.slice(0, -4) : rawUrl;
+        const res = await fetch(`${baseUrl}/health`);
         const data = await res.json();
         setApiStatus(data);
       } catch (err) {
