@@ -32,8 +32,8 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/calendar', calendarRoutes);
 app.use('/api/audit', auditRoutes);
 
-// Healthcheck endpoint
-app.get('/health', async (req, res) => {
+// Healthcheck endpoints
+const healthHandler = async (req, res) => {
   try {
     const conn = await pool.getConnection();
     await conn.query('SELECT 1');
@@ -43,7 +43,9 @@ app.get('/health', async (req, res) => {
     console.error('Database connection failed:', error);
     res.status(500).json({ status: 'ERROR', db: 'Disconnected' });
   }
-});
+};
+app.get('/health', healthHandler);
+app.get('/api/health', healthHandler);
 
 const start = async () => {
   await migrate();

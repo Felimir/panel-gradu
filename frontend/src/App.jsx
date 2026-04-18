@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { fetchWithAuth } from './services/api';
 import AdminLayout from './layouts/AdminLayout';
 import LoginPlaceholder from './pages/LoginPlaceholder';
 import UsersList from './pages/UsersList';
@@ -25,19 +26,14 @@ function App() {
   const [apiStatus, setApiStatus] = useState({ status: 'LOADING', db: 'Unknown' });
 
   useEffect(() => {
-    // Healthcheck polling
     const checkApi = async () => {
       try {
-        const rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-        const baseUrl = rawUrl.endsWith('/api') ? rawUrl.slice(0, -4) : rawUrl;
-        const res = await fetch(`${baseUrl}/health`);
-        const data = await res.json();
+        const data = await fetchWithAuth('/health');
         setApiStatus(data);
       } catch (err) {
         setApiStatus({ status: 'ERROR', db: 'Disconnected' });
       }
     };
-
     checkApi();
   }, []);
 

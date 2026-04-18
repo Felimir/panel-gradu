@@ -89,7 +89,7 @@ const AdminLayout = ({ apiStatus }) => {
           </div>
         </header>
 
-        <div className="content-wrapper page-transition" key={location.pathname}>
+        <div className="content-wrapper" key={location.pathname}>
           <Outlet />
         </div>
       </main>
