@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db/connection');
+const migrate = require('./db/migrate');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,6 +45,11 @@ app.get('/health', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Backend server running on port ${port}`);
-});
+const start = async () => {
+  await migrate();
+  app.listen(port, () => {
+    console.log(`Backend server running on port ${port}`);
+  });
+};
+
+start();
