@@ -1,0 +1,28 @@
+http:
+  routers:
+    panel-gradu-frontend:
+      rule: "Host(`gradu.hxl.red`)"
+      entryPoints:
+        - "websecure"
+      service: panel-gradu-frontend
+      tls:
+        certResolver: letsencrypt
+
+    panel-gradu-api:
+      rule: "Host(`api.gradu.hxl.red`)"
+      entryPoints:
+        - "websecure"
+      service: panel-gradu-backend
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    panel-gradu-frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend-container:5173" # O usar puerto configurado estático
+          
+    panel-gradu-backend:
+      loadBalancer:
+        servers:
+          - url: "http://backend-container:3000"
