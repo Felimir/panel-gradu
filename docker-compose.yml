@@ -16,7 +16,7 @@ services:
       - db_data:/var/lib/mysql
 
   backend:
-    build: 
+    build:
       context: ./backend
     container_name: panel_gradu_backend
     restart: always
