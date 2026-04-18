@@ -125,7 +125,7 @@ const FeesSection = () => {
   return (
     <>
       <div className="glass-panel fade-in-up" style={{ padding: '2rem' }}>
-        <div className="flex justify-between items-center mb-6">
+        <div className="page-header">
           <div>
             <h1 style={{ marginBottom: '0.5rem' }}>Control de cuotas</h1>
             <p className="text-muted">Abonos, seguimientos y liquidaciones mensuales.</p>
@@ -140,7 +140,7 @@ const FeesSection = () => {
         </div>
 
         {/* Filters Top Bar */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="filter-bar">
           <div>
             <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Mes</label>
             <select className="input-field" value={filterMonth} onChange={(e) => setFilterMonth(Number(e.target.value))}>
@@ -189,7 +189,7 @@ const FeesSection = () => {
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <table className="responsive-table">
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
                   <th style={{ padding: '1rem' }}>Estudiante</th>
@@ -215,17 +215,17 @@ const FeesSection = () => {
                 ) : (
                   students.map(st => (
                     <tr key={st.student_id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                      <td style={{ padding: '1rem', fontWeight: '500' }}>{st.student_name}</td>
-                      <td style={{ padding: '1rem' }}>{st.class_name} <span className="text-muted" style={{ fontSize: '0.85rem' }}>({st.class_shift === 'morning' ? 'Mañana' : 'Tarde'})</span></td>
-                      <td style={{ padding: '1rem', color: 'var(--accent-primary)' }}>
+                      <td data-label="Estudiante" style={{ padding: '1rem', fontWeight: '500' }}>{st.student_name}</td>
+                      <td data-label="Clase / Turno" style={{ padding: '1rem' }}>{st.class_name} <span className="text-muted" style={{ fontSize: '0.85rem' }}>({st.class_shift === 'morning' ? 'Mañana' : 'Tarde'})</span></td>
+                      <td data-label="Monto" style={{ padding: '1rem', color: 'var(--accent-primary)' }}>
                         ${globalFee}
                         {st.status === 'paid' && st.amount_paid > 0 && st.amount_paid !== globalFee && <span style={{ fontSize: '0.85rem', marginLeft: '0.5rem', color: 'var(--color-warning)' }}>(Abonó: ${st.amount_paid})</span>}
                         {st.status === 'paid' && st.amount_paid === 0 && <span style={{ fontSize: '0.85rem', marginLeft: '0.5rem', color: 'var(--text-muted)' }}>(Pendiente de ingresar valor exacto)</span>}
                       </td>
-                      <td style={{ padding: '1rem' }}>{renderStatusBadge(st)}</td>
+                      <td data-label="Estado" style={{ padding: '1rem' }}>{renderStatusBadge(st)}</td>
                       <td style={{ padding: '1rem' }}>
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
-                          <button onClick={() => loadHistory(st)} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-info)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Historial</button>
+                          <button onClick={() => loadHistory(st)} className="btn-action" style={{ background: 'var(--color-info)', color: 'white' }}>Historial</button>
 
                           <button onClick={() => {
                             setPayFormData({
@@ -235,7 +235,7 @@ const FeesSection = () => {
                               observations: st.observations || ''
                             });
                             setQuickPayModal({ isOpen: true, student: st });
-                          }} style={{ padding: '0.3rem 0.6rem', background: st.status === 'pending' ? 'var(--color-success)' : 'var(--color-warning)', color: st.status === 'pending' ? 'white' : '#0e0c09', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                          }} className="btn-action" style={{ background: st.status === 'pending' ? 'var(--color-success)' : 'var(--color-warning)', color: st.status === 'pending' ? 'white' : '#0e0c09' }}>
                             {st.status === 'pending' ? 'Cobrar' : 'Editar'}
                           </button>
                         </div>

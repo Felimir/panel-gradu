@@ -123,7 +123,7 @@ const RafflesSection = () => {
   return (
     <>
       <div className="glass-panel fade-in-up" style={{ padding: '2rem' }}>
-        <div className="flex justify-between items-center mb-6">
+        <div className="page-header">
           <div>
             <h1 style={{ marginBottom: '0.5rem' }}>Gestión de rifas</h1>
             <p className="text-muted">Asignación, rendición de rifas y aportes automáticos a cuotas.</p>
@@ -131,7 +131,7 @@ const RafflesSection = () => {
         </div>
 
         {/* Filters Top Bar */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="filter-bar">
           <div>
             <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Mes</label>
             <select className="input-field" value={filterMonth} onChange={(e) => setFilterMonth(Number(e.target.value))}>
@@ -167,7 +167,7 @@ const RafflesSection = () => {
         </div>
 
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="responsive-table">
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <th style={{ padding: '1rem' }}>Estudiante</th>
@@ -196,28 +196,27 @@ const RafflesSection = () => {
                 <tr><td colSpan="7" className="text-muted" style={{ padding: '2rem', textAlign: 'center' }}>No hay estudiantes para estos filtros.</td></tr>
               ) : (
                 students.map(st => {
-                  // Total en posesion aparente del estudiante (las que se llevó - (vendidas + devueltas sin vender))
                   const possession = st.total_delivered - (st.total_sold + st.total_unsold);
 
                   return (
                     <tr key={st.student_id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                      <td style={{ padding: '1rem', fontWeight: '500' }}>{st.student_name}</td>
-                      <td style={{ padding: '1rem' }}>{st.class_name} <span className="text-muted" style={{ fontSize: '0.85rem' }}>({st.class_shift === 'morning' ? 'Mañana' : 'Tarde'})</span></td>
-                      <td style={{ padding: '1rem', textAlign: 'center', color: possession > 0 ? 'var(--color-warning)' : 'inherit' }}>
+                      <td data-label="Estudiante" style={{ padding: '1rem', fontWeight: '500' }}>{st.student_name}</td>
+                      <td data-label="Clase / Turno" style={{ padding: '1rem' }}>{st.class_name} <span className="text-muted" style={{ fontSize: '0.85rem' }}>({st.class_shift === 'morning' ? 'Mañana' : 'Tarde'})</span></td>
+                      <td data-label="Entregadas" style={{ padding: '1rem', textAlign: 'center', color: possession > 0 ? 'var(--color-warning)' : 'inherit' }}>
                         {st.total_delivered} {possession > 0 && <span style={{ fontSize: '0.75rem' }}>({possession} sin rendir)</span>}
                       </td>
-                      <td style={{ padding: '1rem', textAlign: 'center' }}>{st.total_sold > 0 ? <strong style={{ color: 'var(--color-success)' }}>{st.total_sold}</strong> : 0}</td>
-                      <td style={{ padding: '1rem', textAlign: 'center' }}>{st.total_unsold}</td>
-                      <td style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: st.total_collected > 0 ? 'var(--accent-primary)' : 'inherit' }}>
+                      <td data-label="Vendidas" style={{ padding: '1rem', textAlign: 'center' }}>{st.total_sold > 0 ? <strong style={{ color: 'var(--color-success)' }}>{st.total_sold}</strong> : 0}</td>
+                      <td data-label="Devueltas" style={{ padding: '1rem', textAlign: 'center' }}>{st.total_unsold}</td>
+                      <td data-label="Fondo" style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: st.total_collected > 0 ? 'var(--accent-primary)' : 'inherit' }}>
                         ${st.total_collected}
                       </td>
                       <td style={{ padding: '1rem', textAlign: 'right' }}>
                         <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                          <button onClick={() => loadHistory(st)} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-info)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Auditar</button>
+                          <button onClick={() => loadHistory(st)} className="btn-action" style={{ background: 'var(--color-info)', color: 'white' }}>Auditar</button>
                           <button onClick={() => {
                             setTransactionForm({ action_type: 'delivered_to_student', quantity: '', deposit_status: 'pending' });
                             setTransactionModal({ isOpen: true, student: st });
-                          }} style={{ padding: '0.3rem 0.6rem', background: 'var(--accent-primary)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Operar</button>
+                          }} className="btn-action" style={{ background: 'var(--accent-primary)', color: 'white' }}>Operar</button>
                         </div>
                       </td>
                     </tr>

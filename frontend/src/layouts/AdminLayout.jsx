@@ -1,12 +1,20 @@
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Receipt, CreditCard, LogOut, Activity, Wallet, GraduationCap, BookOpen, CalendarDays, UserCog, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Users, Receipt, CreditCard, LogOut, Activity, Wallet, GraduationCap, BookOpen, CalendarDays, UserCog, ShieldCheck, Menu, X } from 'lucide-react';
 import './AdminLayout.css';
 
 const AdminLayout = ({ apiStatus }) => {
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const rawUser = localStorage.getItem('user');
   const user = rawUser ? JSON.parse(rawUser) : null;
   const usernameStr = user?.username || 'Invitado';
+
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [location.pathname]);
+
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   const baseNavItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
@@ -25,7 +33,15 @@ const AdminLayout = ({ apiStatus }) => {
 
   return (
     <div className="admin-container">
-      <aside className="sidebar">
+      <div className={`sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} onClick={closeSidebar} />
+
+      <aside className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+        <div className="sidebar-close-btn">
+          <button onClick={closeSidebar} aria-label="Cerrar menú">
+            <X size={20} />
+          </button>
+        </div>
+
         <div className="sidebar-header">
           <div className="logo-wrapper">
             <GraduationCap size={22} className="logo-icon" strokeWidth={1.75} />
@@ -39,7 +55,7 @@ const AdminLayout = ({ apiStatus }) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
             return (
-              <Link key={item.name} to={item.path} className={`nav-link ${isActive ? 'active' : ''}`}>
+              <Link key={item.name} to={item.path} onClick={closeSidebar} className={`nav-link ${isActive ? 'active' : ''}`}>
                 <Icon size={18} strokeWidth={isActive ? 2 : 1.75} />
                 <span>{item.name}</span>
               </Link>
@@ -48,7 +64,7 @@ const AdminLayout = ({ apiStatus }) => {
         </nav>
 
         <div className="sidebar-footer">
-          <Link to="/login" onClick={() => localStorage.removeItem('isAuth')} className="nav-link logout">
+          <Link to="/login" onClick={() => { localStorage.removeItem('isAuth'); closeSidebar(); }} className="nav-link logout">
             <LogOut size={18} strokeWidth={1.75} />
             <span>Cerrar sesión</span>
           </Link>
@@ -57,6 +73,9 @@ const AdminLayout = ({ apiStatus }) => {
 
       <main className="main-content">
         <header className="top-header">
+          <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)} aria-label="Abrir menú">
+            <Menu size={20} />
+          </button>
           <h2 className="page-title">Sistema de gestión</h2>
           <div className="header-actions">
             <div className={`status-badge ${apiStatus.status === 'OK' ? 'status-ok' : 'status-error'}`}>

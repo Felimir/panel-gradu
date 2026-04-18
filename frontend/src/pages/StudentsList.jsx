@@ -118,13 +118,13 @@ const StudentsList = () => {
   return (
     <>
       <div className="glass-panel fade-in-up" style={{ padding: '2rem' }}>
-        <div className="flex justify-between items-center mb-6">
+        <div className="page-header">
           <h1>Padrón de estudiantes</h1>
           <button className="button-primary" onClick={openNewModal}>+ Registrar estudiante</button>
         </div>
 
         {/* Filters Top Bar */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="filter-bar">
           <div>
             <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Buscar por nombre</label>
             <input type="text" className="input-field" placeholder="Ej: Perez..." value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -162,7 +162,7 @@ const StudentsList = () => {
         </div>
 
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="responsive-table">
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <th style={{ padding: '1rem' }}>Nombre</th>
@@ -188,22 +188,22 @@ const StudentsList = () => {
               ) : (
                 students.map(st => (
                   <tr key={st.id} style={{ borderBottom: '1px solid var(--border-color)', opacity: st.status === 'dropped' ? 0.6 : 1 }}>
-                    <td style={{ padding: '1rem', fontWeight: '500' }}>{st.name}</td>
-                    <td style={{ padding: '1rem' }}>{st.class_name} <span className="text-muted" style={{ fontSize: '0.85rem' }}>({st.shift === 'morning' ? 'Mañana' : 'Tarde'})</span></td>
-                    <td style={{ padding: '1rem' }}>{st.wants_hoodie ? '✅ Sí' : '❌ No'}</td>
-                    <td style={{ padding: '1rem' }}>
+                    <td data-label="Nombre" style={{ padding: '1rem', fontWeight: '500' }}>{st.name}</td>
+                    <td data-label="Clase / Turno" style={{ padding: '1rem' }}>{st.class_name} <span className="text-muted" style={{ fontSize: '0.85rem' }}>({st.shift === 'morning' ? 'Mañana' : 'Tarde'})</span></td>
+                    <td data-label="Buzo" style={{ padding: '1rem' }}>{st.wants_hoodie ? '✅ Sí' : '❌ No'}</td>
+                    <td data-label="Estado" style={{ padding: '1rem' }}>
                       <span className={`status-badge ${st.status === 'active' ? 'status-ok' : 'status-error'}`}>
                         {st.status === 'active' ? 'Activo' : 'Desertor'}
                       </span>
                     </td>
                     <td style={{ padding: '1rem' }}>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <button onClick={() => openEditModal(st)} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-info)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Editar</button>
+                        <button onClick={() => openEditModal(st)} className="btn-action" style={{ background: 'var(--color-info)', color: 'white' }}>Editar</button>
                         {st.status === 'active' && (
-                          <button onClick={() => setConfirmModal({ isOpen: true, id: st.id, type: 'drop' })} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-warning)', color: '#0e0c09', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Desertar</button>
+                          <button onClick={() => setConfirmModal({ isOpen: true, id: st.id, type: 'drop' })} className="btn-action" style={{ background: 'var(--color-warning)', color: '#0e0c09' }}>Desertar</button>
                         )}
                         {currentUser?.role === 'admin' && (
-                          <button onClick={() => setConfirmModal({ isOpen: true, id: st.id, type: 'delete' })} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-error)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Eliminar</button>
+                          <button onClick={() => setConfirmModal({ isOpen: true, id: st.id, type: 'delete' })} className="btn-action" style={{ background: 'var(--color-error)', color: 'white' }}>Eliminar</button>
                         )}
                       </div>
                     </td>

@@ -128,13 +128,13 @@ const UsersList = () => {
   return (
     <>
       <div className="glass-panel fade-in-up" style={{ padding: '2rem' }}>
-        <div className="flex justify-between items-center mb-6">
+        <div className="page-header">
           <h1>Gestión de usuarios internos</h1>
           <button className="button-primary" onClick={openNewModal}>+ Nuevo usuario</button>
         </div>
 
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="responsive-table">
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <th style={{ padding: '1rem' }}>Cédula</th>
@@ -148,24 +148,24 @@ const UsersList = () => {
             <tbody>
               {users.map(u => (
                 <tr key={u.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                  <td style={{ padding: '1rem', color: 'var(--accent-primary)' }}>{u.cedula}</td>
-                  <td style={{ padding: '1rem', fontWeight: '500' }}>{u.username}</td>
-                  <td style={{ padding: '1rem' }}>{u.role === 'admin' ? 'Administrador' : 'Organizador'}</td>
-                  <td style={{ padding: '1rem' }}>
+                  <td data-label="Cédula" style={{ padding: '1rem', color: 'var(--accent-primary)' }}>{u.cedula}</td>
+                  <td data-label="Usuario" style={{ padding: '1rem', fontWeight: '500' }}>{u.username}</td>
+                  <td data-label="Rol" style={{ padding: '1rem' }}>{u.role === 'admin' ? 'Administrador' : 'Organizador'}</td>
+                  <td data-label="Estado" style={{ padding: '1rem' }}>
                     <span className={`status-badge ${u.status === 'active' ? 'status-ok' : 'status-error'}`}>
                       {u.status === 'active' ? 'Activo' : 'Inactivo'}
                     </span>
                   </td>
-                  <td style={{ padding: '1rem', color: 'var(--text-muted)' }}>
+                  <td data-label="Clases" style={{ padding: '1rem', color: 'var(--text-muted)' }}>
                     {u.classes?.map(c => c.name).join(', ') || '-'}
                   </td>
                   <td style={{ padding: '1rem' }}>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <button onClick={() => openEditModal(u)} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-info)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Editar</button>
+                      <button onClick={() => openEditModal(u)} className="btn-action" style={{ background: 'var(--color-info)', color: 'white' }}>Editar</button>
                       {u.status === 'active' ? (
-                        <button onClick={() => toggleUserStatus(u.id, u.status)} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-error)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Desactivar</button>
+                        <button onClick={() => toggleUserStatus(u.id, u.status)} className="btn-action" style={{ background: 'var(--color-error)', color: 'white' }}>Desactivar</button>
                       ) : (
-                        <button onClick={() => toggleUserStatus(u.id, u.status)} style={{ padding: '0.3rem 0.6rem', background: 'var(--color-success)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Reactivar</button>
+                        <button onClick={() => toggleUserStatus(u.id, u.status)} className="btn-action" style={{ background: 'var(--color-success)', color: 'white' }}>Reactivar</button>
                       )}
                     </div>
                   </td>

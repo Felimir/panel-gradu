@@ -150,12 +150,7 @@ export default function AuditLogsSection() {
       </div>
 
       {/* Filtros */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
-        gap: '0.75rem',
-        marginBottom: '1.25rem',
-      }}>
+      <div className="filter-bar" style={{ marginBottom: '1.25rem' }}>
         <select
           className="input-field"
           value={filters.entity}
@@ -237,7 +232,7 @@ export default function AuditLogsSection() {
 
       {/* Tabla */}
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+        <table className="responsive-table" style={{ fontSize: '0.875rem' }}>
           <thead>
             <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
               {['Fecha/hora', 'Actor', 'Módulo', 'Acción', 'ID registro', 'Detalle'].map((h) => (
@@ -282,23 +277,23 @@ export default function AuditLogsSection() {
                   onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
-                  <td style={{ padding: '0.75rem', whiteSpace: 'nowrap', color: 'var(--text-muted)', fontVariantNumeric: 'tabular-nums' }}>
+                  <td data-label="Fecha/hora" style={{ padding: '0.75rem', whiteSpace: 'nowrap', color: 'var(--text-muted)', fontVariantNumeric: 'tabular-nums' }}>
                     {formatDate(log.created_at)}
                   </td>
-                  <td style={{ padding: '0.75rem', fontWeight: 500 }}>
+                  <td data-label="Actor" style={{ padding: '0.75rem', fontWeight: 500 }}>
                     {log.actor_name || <span className="text-muted">Sistema</span>}
                   </td>
-                  <td style={{ padding: '0.75rem' }}>
+                  <td data-label="Módulo" style={{ padding: '0.75rem' }}>
                     <span style={badgeStyle(ENTITY_COLORS[log.entity] || '#64748B')}>
                       {ENTITY_LABELS[log.entity] || log.entity}
                     </span>
                   </td>
-                  <td style={{ padding: '0.75rem' }}>
+                  <td data-label="Acción" style={{ padding: '0.75rem' }}>
                     <span style={badgeStyle(ACTION_COLORS[log.action] || '#64748B')}>
                       {ACTION_LABELS[log.action] || log.action}
                     </span>
                   </td>
-                  <td style={{ padding: '0.75rem', color: 'var(--text-muted)', fontVariantNumeric: 'tabular-nums' }}>
+                  <td data-label="ID" style={{ padding: '0.75rem', color: 'var(--text-muted)', fontVariantNumeric: 'tabular-nums' }}>
                     {log.entity_id ?? '—'}
                   </td>
                   <td style={{ padding: '0.75rem' }}>

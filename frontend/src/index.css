@@ -569,3 +569,255 @@ tbody tr:nth-child(n+11) {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(59, 130, 246, 0.42);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile-first additions
+   Breakpoints: 768px (tablet), 480px (mobile)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Responsive Grid Classes ────────────────────────────────────── */
+
+.grid-kpi-primary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-kpi-secondary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-finance-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+/* ── Filter bar ─────────────────────────────────────────────────── */
+
+.filter-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Page header row ────────────────────────────────────────────── */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Responsive table → card pattern ───────────────────────────── */
+
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* ── Touch-friendly action buttons ─────────────────────────────── */
+
+.btn-action {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-height: 36px;
+  min-width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.3rem 0.6rem;
+  font-family: 'Figtree', sans-serif;
+}
+
+/* ── Calendar helpers ───────────────────────────────────────────── */
+
+.calendar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-month-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  min-width: 190px;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.calendar-day-names-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+/* ── TABLET: 768px ──────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .filter-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-finance-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-kpi-primary {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-kpi-secondary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-widgets {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── MOBILE: 480px ──────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-finance-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-kpi-secondary {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .page-header > .button-primary,
+  .page-header > button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-action {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* ── Responsive table → card layout ──────────────────────────── */
+
+  .responsive-table thead {
+    display: none;
+  }
+
+  .responsive-table tbody tr {
+    display: block;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    animation: fadeSlideIn 0.18s ease both;
+    animation-delay: 0s !important;
+  }
+
+  .responsive-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.45rem 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 0.875rem;
+    gap: 0.5rem;
+  }
+
+  .responsive-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0 !important;
+    justify-content: flex-end;
+  }
+
+  .responsive-table td::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    padding-top: 2px;
+    min-width: 85px;
+  }
+
+  .responsive-table td:last-child::before {
+    content: none;
+  }
+
+  .responsive-table td:last-child > div {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* ── Calendar mobile ──────────────────────────────────────────── */
+
+  .calendar-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendar-month-label {
+    min-width: 130px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .calendar-day-names-row > div {
+    font-size: 0.6rem;
+    padding: 0.25rem 0;
+    letter-spacing: 0;
+  }
+
+  .calendar-grid > div {
+    min-height: 52px !important;
+    padding: 0.25rem !important;
+  }
+}

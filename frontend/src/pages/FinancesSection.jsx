@@ -76,7 +76,7 @@ const FinancesSection = () => {
   return (
     <>
       <div className="glass-panel fade-in-up" style={{ padding: '2rem' }}>
-        <div className="flex justify-between items-center mb-6">
+        <div className="page-header">
           <div>
             <h1 style={{ marginBottom: '0.5rem' }}>Libro financiero</h1>
             <p className="text-muted">Cálculo de balance maestro y asiento contable</p>
@@ -89,7 +89,7 @@ const FinancesSection = () => {
 
         {/* Dashboard KPIs */}
         {!loading && summary && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
+          <div className="grid-finance-kpis">
 
             <div className="glass-panel" style={{ padding: '1.5rem', borderLeft: '3px solid var(--color-info)' }}>
               <p className="text-muted" style={{ margin: '0 0 0.5rem 0', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Saldo en caja</p>
@@ -122,7 +122,7 @@ const FinancesSection = () => {
         {/* Ledger Table */}
         <h3 className="mb-4">Libro diario (Transacciones manuales)</h3>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="responsive-table">
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-color)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                 <th style={{ padding: '1rem' }}>Fecha</th>
@@ -151,13 +151,13 @@ const FinancesSection = () => {
                   const cat = categories[tx.category] || { name: tx.category, icon: '📌' };
                   return (
                     <tr key={tx.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                      <td style={{ padding: '1rem', fontWeight: '500' }}>{new Date(tx.transaction_date).toLocaleDateString()}</td>
-                      <td style={{ padding: '1rem' }}>{cat.icon} {cat.name}</td>
-                      <td style={{ padding: '1rem', color: 'var(--text-muted)' }}>{tx.description}</td>
-                      <td style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: isIncome ? 'var(--color-success)' : 'inherit' }}>
+                      <td data-label="Fecha" style={{ padding: '1rem', fontWeight: '500' }}>{new Date(tx.transaction_date).toLocaleDateString()}</td>
+                      <td data-label="Categoría" style={{ padding: '1rem' }}>{cat.icon} {cat.name}</td>
+                      <td data-label="Descripción" style={{ padding: '1rem', color: 'var(--text-muted)' }}>{tx.description}</td>
+                      <td data-label="Ingresos" style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: isIncome ? 'var(--color-success)' : 'inherit' }}>
                         {isIncome ? `+${formatMoney(tx.amount)}` : '-'}
                       </td>
-                      <td style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: !isIncome ? 'var(--color-error)' : 'inherit' }}>
+                      <td data-label="Egresos" style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: !isIncome ? 'var(--color-error)' : 'inherit' }}>
                         {!isIncome ? `-${formatMoney(tx.amount)}` : '-'}
                       </td>
                     </tr>

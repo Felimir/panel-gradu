@@ -203,7 +203,7 @@ const CalendarSection = () => {
       <div className="glass-panel fade-in-up" style={{ padding: '2rem' }}>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="page-header">
           <div>
             <h1 style={{ marginBottom: '0.5rem' }}>Calendario operativo</h1>
             <p className="text-muted">Cantina, vencimientos, hitos y eventos internos</p>
@@ -212,7 +212,7 @@ const CalendarSection = () => {
         </div>
 
         {/* Controls bar */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <div className="calendar-controls">
 
           {/* Month navigation */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -223,7 +223,7 @@ const CalendarSection = () => {
             >
               <ChevronLeft size={17} />
             </button>
-            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1.05rem', minWidth: '190px', textAlign: 'center', letterSpacing: '-0.01em' }}>
+            <span className="calendar-month-label">
               {MONTH_NAMES[currentMonth - 1]} {currentYear}
             </span>
             <button
@@ -274,14 +274,14 @@ const CalendarSection = () => {
         {viewMode === 'month' && (
           <div>
             {/* Day headers */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '4px' }}>
+            <div className="calendar-day-names-row">
               {DAY_NAMES.map(d => (
                 <div key={d} style={{ textAlign: 'center', padding: '0.4rem 0', fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{d}</div>
               ))}
             </div>
 
             {/* Grid cells */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px' }}>
+            <div className="calendar-grid">
               {loading ? (
                 Array.from({ length: 35 }).map((_, i) => (
                   <div key={i} style={{ minHeight: '88px', background: 'var(--bg-raised)', borderRadius: '8px', padding: '0.5rem' }}>
@@ -355,7 +355,7 @@ const CalendarSection = () => {
         {/* ── LIST VIEW ──────────────────────────────────────────────────────── */}
         {viewMode === 'list' && (
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <table className="responsive-table">
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border-color)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                   <th style={{ padding: '0.75rem 1rem' }}>Fecha</th>
@@ -388,20 +388,20 @@ const CalendarSection = () => {
                     const tc = TYPE_CONFIG[ev.event_type] || TYPE_CONFIG.internal_event;
                     return (
                       <tr key={ev.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '0.75rem 1rem', fontWeight: 500 }}>{formatDate(ev.event_date)}</td>
-                        <td style={{ padding: '0.75rem 1rem' }}>
+                        <td data-label="Fecha" style={{ padding: '0.75rem 1rem', fontWeight: 500 }}>{formatDate(ev.event_date)}</td>
+                        <td data-label="Tipo" style={{ padding: '0.75rem 1rem' }}>
                           <span style={{ padding: '2px 8px', borderRadius: '4px', background: tc.bg, color: tc.color, fontSize: '0.78rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
                             {tc.label}
                           </span>
                         </td>
-                        <td style={{ padding: '0.75rem 1rem' }}>
+                        <td data-label="Evento" style={{ padding: '0.75rem 1rem' }}>
                           <div style={{ fontWeight: 600 }}>{ev.title}</div>
                           {ev.notes && <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>{ev.notes}</div>}
                         </td>
-                        <td style={{ padding: '0.75rem 1rem', color: 'var(--text-muted)', fontSize: '0.88rem' }}>
+                        <td data-label="Clase" style={{ padding: '0.75rem 1rem', color: 'var(--text-muted)', fontSize: '0.88rem' }}>
                           {ev.class_name ? `${ev.class_name} (${shiftLabel(ev.class_shift)})` : '—'}
                         </td>
-                        <td style={{ padding: '0.75rem 1rem', color: 'var(--text-muted)', fontSize: '0.88rem' }}>
+                        <td data-label="Asignado" style={{ padding: '0.75rem 1rem', color: 'var(--text-muted)', fontSize: '0.88rem' }}>
                           {ev.student_name || '—'}
                         </td>
                         <td style={{ padding: '0.75rem 1rem' }}>

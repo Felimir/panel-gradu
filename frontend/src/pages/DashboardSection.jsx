@@ -34,16 +34,16 @@ const DashboardSection = () => {
       return (
          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             <div className="glass-panel skeleton" style={{ height: '90px' }} />
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+            <div className="grid-kpi-secondary">
                {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="glass-panel skeleton" style={{ height: '110px' }} />
                ))}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
+            <div className="grid-charts">
                <div className="glass-panel skeleton" style={{ height: '330px' }} />
                <div className="glass-panel skeleton" style={{ height: '330px' }} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            <div className="grid-widgets">
                <div className="glass-panel skeleton" style={{ height: '200px' }} />
                <div className="glass-panel skeleton" style={{ height: '200px' }} />
             </div>
@@ -106,7 +106,7 @@ const DashboardSection = () => {
          </div>
 
          {/* KPI GRID PRIMARY */}
-         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+         <div className="grid-kpi-primary">
 
             {/* 1. Meta Global y Progreso */}
             <div className="glass-panel fade-in-up stagger-1" style={{ padding: '2rem', borderLeft: '4px solid var(--accent-primary)', display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -183,7 +183,7 @@ const DashboardSection = () => {
          </div>
 
          {/* KPI GRID SECONDARY */}
-         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
+         <div className="grid-kpi-secondary">
 
             <div className="glass-panel fade-in-up stagger-4" style={{ padding: '1.75rem' }}>
                <div className="flex items-center mb-4" style={{ gap: '0.75rem' }}>
@@ -236,7 +236,7 @@ const DashboardSection = () => {
          </div>
 
          {/* CHARTS ROW */}
-         <div className="fade-in-up stagger-2" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
+         <div className="grid-charts fade-in-up stagger-2">
 
             <div className="glass-panel" style={{ padding: '1.75rem 2rem' }}>
                <h3 style={{ marginTop: 0, marginBottom: '1.75rem', fontSize: '1rem' }}>Recaudación histórica por clase</h3>
@@ -306,7 +306,7 @@ const DashboardSection = () => {
          </div>
 
          {/* WIDGETS ROW */}
-         <div className="fade-in-up stagger-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+         <div className="grid-widgets fade-in-up stagger-3">
 
             <div className="glass-panel" style={{ padding: '1.75rem 2rem', borderTop: '3px solid var(--color-error)' }}>
                <h3 style={{ marginTop: 0, marginBottom: '1.25rem', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
