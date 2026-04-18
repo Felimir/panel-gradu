@@ -1,0 +1,64 @@
+# Production override — copy to server alongside docker-compose.yml
+# Requires: Docker Compose v2.20+ (for !reset tag)
+# Adjust 'traefik-net' below to match your Traefik external network name.
+#
+# Usage on server:
+#   docker compose up -d --build
+#
+# If your docker compose version doesn't support !reset, manually remove
+# the ports: entries from docker-compose.yml instead.
+
+name: panel-gradu
+
+services:
+  db:
+    ports: !reset []
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    ports: !reset []
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+    networks:
+      - default
+      - traefik-net
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=traefik-net'
+      - 'traefik.http.routers.panel-gradu-api.rule=Host(`gradu.hxl.red`) && PathPrefix(`/api`)'
+      - 'traefik.http.routers.panel-gradu-api.tls=true'
+      - 'traefik.http.routers.panel-gradu-api.tls.certresolver=le'
+      - 'traefik.http.routers.panel-gradu-api.entrypoints=websecure'
+      - 'traefik.http.services.panel-gradu-api.loadbalancer.server.port=3000'
+
+  frontend:
+    ports: !reset []
+    environment:
+      - VITE_API_URL=https://gradu.hxl.red
+    networks:
+      - default
+      - traefik-net
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=traefik-net'
+      - 'traefik.http.routers.panel-gradu.rule=Host(`gradu.hxl.red`)'
+      - 'traefik.http.routers.panel-gradu.tls=true'
+      - 'traefik.http.routers.panel-gradu.tls.certresolver=le'
+      - 'traefik.http.routers.panel-gradu.entrypoints=websecure'
+      - 'traefik.http.services.panel-gradu.loadbalancer.server.port=5173'
+
+  phpmyadmin:
+    ports: !reset []
+
+networks:
+  default: {}
+  traefik-net:
+    external: true

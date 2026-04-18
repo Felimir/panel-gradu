@@ -238,7 +238,7 @@ const StudentsList = () => {
               </div>
               <div className="mb-4" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <input type="checkbox" id="wants_hoodie" style={{ width: '18px', height: '18px', cursor: 'pointer' }} checked={formData.wants_hoodie} onChange={e => setFormData({ ...formData, wants_hoodie: e.target.checked })} />
-                <label htmlFor="wants_hoodie" style={{ cursor: 'pointer', margin: 0 }}>¿Adquiere Buzo de Graduación?</label>
+                <label htmlFor="wants_hoodie" style={{ cursor: 'pointer', margin: 0 }}>¿Quiere buzo de egresado?</label>
               </div>
 
               {editingId && (

@@ -1,10 +1,10 @@
-version: '3.8'
+name: panel-gradu
 
 services:
   db:
     image: mariadb:10.11
     container_name: panel_gradu_db
-    restart: always
+    restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
       MARIADB_DATABASE: ${DB_NAME:-panel_gradu}
@@ -19,7 +19,7 @@ services:
     build:
       context: ./backend
     container_name: panel_gradu_backend
-    restart: always
+    restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
@@ -39,7 +39,7 @@ services:
     build:
       context: ./frontend
     container_name: panel_gradu_frontend
-    restart: always
+    restart: unless-stopped
     ports:
       - "5173:5173"
     environment:
@@ -53,7 +53,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: panel_gradu_phpmyadmin
-    restart: always
+    restart: unless-stopped
     ports:
       - "8080:80"
     environment:

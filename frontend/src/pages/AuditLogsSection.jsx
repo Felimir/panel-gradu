@@ -140,6 +140,7 @@ export default function AuditLogsSection() {
   }
 
   return (
+    <>
     <div className="glass-panel fade-in-up" style={{ padding: '1.75rem 2rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
         <ShieldCheck size={22} style={{ color: 'var(--accent-primary)' }} strokeWidth={1.75} />
@@ -374,6 +375,8 @@ export default function AuditLogsSection() {
         </div>
       )}
 
+    </div>
+
       {/* Modal de detalle */}
       {selectedLog && (
         <div
@@ -459,6 +462,6 @@ export default function AuditLogsSection() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
