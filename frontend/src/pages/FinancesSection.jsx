@@ -25,10 +25,10 @@ const FinancesSection = () => {
   const categories = {
     fees: { name: 'Cuotas', icon: '💰' },
     raffles: { name: 'Rifas', icon: '🎟️' },
-    common_fund: { name: 'Fondo Común', icon: '🏦' },
+    common_fund: { name: 'Fondo común', icon: '🏦' },
     canteen: { name: 'Cantina', icon: '🍔' },
     events: { name: 'Eventos/Fiestas', icon: '🎉' },
-    deposits: { name: 'Depósitos Bancarios', icon: '🏦' },
+    deposits: { name: 'Depósitos', icon: '🏦' },
     guarantees: { name: 'Garantías', icon: '🔒' },
     transport: { name: 'Transporte', icon: '🚌' },
     other: { name: 'Otros', icon: '📌' }

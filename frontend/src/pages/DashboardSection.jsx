@@ -116,7 +116,7 @@ const DashboardSection = () => {
                      <h2 style={{ margin: 0, fontSize: '2.2rem', fontFamily: 'Figtree, sans-serif', fontWeight: 700, lineHeight: 1 }}>{formatMoney(currentBalance)}</h2>
                      <p className="text-muted" style={{ fontSize: '0.92rem', marginTop: '0.65rem', fontWeight: 500 }}>de {formatMoney(globalTarget)} objetivo</p>
                   </div>
-                  <div style={{ background: 'var(--accent-light)', width: '46px', height: '46px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>
+                  <div style={{ background: 'var(--accent-light)', width: '46px', height: '46px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px', flexShrink: 0 }}>
                      <Target size={22} color="var(--accent-primary)" />
                   </div>
                </div>
@@ -144,7 +144,7 @@ const DashboardSection = () => {
                      <h2 style={{ margin: 0, fontSize: '2.2rem', fontFamily: 'Figtree, sans-serif', fontWeight: 700, lineHeight: 1 }}>{uptodateCount}<span style={{ fontSize: '1.5rem', opacity: 0.4, fontWeight: 400, marginLeft: '4px' }}>/ {activeStudents}</span></h2>
                      <p className="text-muted" style={{ fontSize: '0.92rem', marginTop: '0.65rem', fontWeight: 500 }}>Estudiantes al día</p>
                   </div>
-                  <div style={{ background: 'rgba(245, 158, 11, 0.12)', width: '46px', height: '46px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>
+                  <div style={{ background: 'rgba(245, 158, 11, 0.12)', width: '46px', height: '46px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px', flexShrink: 0 }}>
                      <Activity size={22} color="#F59E0B" />
                   </div>
                </div>
@@ -169,7 +169,7 @@ const DashboardSection = () => {
                      <p style={{ margin: '0 0 0.75rem 0', color: '#10B981', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Último Ingreso</p>
                      <h2 style={{ margin: 0, fontSize: '2.1rem', fontFamily: 'Figtree, sans-serif', fontWeight: 700, color: '#10B981', lineHeight: 1 }}>+ {formatMoney(lastIncome.val)}</h2>
                   </div>
-                  <div style={{ background: 'rgba(16, 185, 129, 0.12)', width: '46px', height: '46px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>
+                  <div style={{ background: 'rgba(16, 185, 129, 0.12)', width: '46px', height: '46px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px', flexShrink: 0 }}>
                      <TrendingUp size={22} color="#10B981" />
                   </div>
                </div>
@@ -187,7 +187,7 @@ const DashboardSection = () => {
 
             <div className="glass-panel fade-in-up stagger-4" style={{ padding: '1.75rem' }}>
                <div className="flex items-center mb-4" style={{ gap: '0.75rem' }}>
-                  <div style={{ background: 'rgba(59, 130, 246, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px' }}>
+                  <div style={{ background: 'rgba(59, 130, 246, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px', flexShrink: 0 }}>
                      <Ticket size={18} color="var(--accent-primary)" />
                   </div>
                   <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Rifas Vendidas</p>
@@ -202,7 +202,7 @@ const DashboardSection = () => {
 
             <div className="glass-panel fade-in-up stagger-5" style={{ padding: '1.75rem' }}>
                <div className="flex items-center mb-4" style={{ gap: '0.75rem' }}>
-                  <div style={{ background: 'rgba(139, 92, 246, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px' }}>
+                  <div style={{ background: 'rgba(139, 92, 246, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px', flexShrink: 0 }}>
                      <Trophy size={18} color="#8B5CF6" />
                   </div>
                   <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Fondo Común</p>
@@ -212,7 +212,7 @@ const DashboardSection = () => {
 
             <div className="glass-panel fade-in-up stagger-6" style={{ padding: '1.75rem' }}>
                <div className="flex items-center mb-4" style={{ gap: '0.75rem' }}>
-                  <div style={{ background: 'rgba(139, 92, 246, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px' }}>
+                  <div style={{ background: 'rgba(139, 92, 246, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px', flexShrink: 0 }}>
                      <DollarSign size={18} color="var(--color-purple)" />
                   </div>
                   <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Balance Proyectado</p>
@@ -225,7 +225,7 @@ const DashboardSection = () => {
 
             <div className="glass-panel fade-in-up stagger-6" style={{ padding: '1.75rem' }}>
                <div className="flex items-center mb-4" style={{ gap: '0.75rem' }}>
-                  <div style={{ background: 'rgba(244, 63, 94, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px' }}>
+                  <div style={{ background: 'rgba(244, 63, 94, 0.12)', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px', flexShrink: 0 }}>
                      <AlertTriangle size={18} color="#F43F5E" />
                   </div>
                   <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Dinero de cuotas por Cobrar (Abril-Diciembre)</p>

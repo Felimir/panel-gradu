@@ -150,14 +150,14 @@ const StudentsList = () => {
             </select>
           </div>
           <div>
-            <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Filtrar por Clase</label>
+            <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Filtrar por clase</label>
             <select className="input-field" value={filterClass} onChange={(e) => setFilterClass(e.target.value)}>
               <option value="">Todas las clases</option>
               {classes.map(c => <option key={c.id} value={c.id}>{c.name} ({c.shift === 'morning' ? 'Mañana' : 'Tarde'})</option>)}
             </select>
           </div>
           <div>
-            <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Estado Operativo</label>
+            <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Estado</label>
             <select className="input-field" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
               <option value="">Todos los estados</option>
               <option value="active">Activos</option>
@@ -243,7 +243,7 @@ const StudentsList = () => {
 
               {editingId && (
                 <div className="mb-6">
-                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Estado Operativo</label>
+                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Estado</label>
                   <select className="input-field" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })}>
                     <option value="active">Activo</option>
                     <option value="dropped">Desertor (Se bajó de la graduación)</option>
@@ -253,7 +253,7 @@ const StudentsList = () => {
 
               <div className="flex justify-between mt-6">
                 <button type="button" onClick={() => setIsModalOpen(false)} style={{ background: 'transparent', color: 'var(--text-muted)', border: 'none', cursor: 'pointer' }}>Cancelar</button>
-                <button type="submit" className="button-primary">{editingId ? 'Guardar Cambios' : 'Registrar'}</button>
+                <button type="submit" className="button-primary">{editingId ? 'Guardar cambios' : 'Registrar'}</button>
               </div>
             </form>
           </div>
@@ -276,7 +276,7 @@ const StudentsList = () => {
             )}
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-              <button type="button" onClick={() => setConfirmModal({ isOpen: false, id: null, type: null })} style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer' }}>Cancelar Operación</button>
+              <button type="button" onClick={() => setConfirmModal({ isOpen: false, id: null, type: null })} style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer' }}>Cancelar operación</button>
               <button type="button" onClick={executeConfirmAction} style={{ padding: '0.5rem 1rem', background: confirmModal.type === 'drop' ? 'var(--color-warning)' : 'var(--color-error)', color: confirmModal.type === 'drop' ? '#0e0c09' : 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Sí, confirmar</button>
             </div>
           </div>
