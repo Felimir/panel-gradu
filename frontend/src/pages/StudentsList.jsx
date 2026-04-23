@@ -2,6 +2,44 @@ import { useState, useEffect } from 'react';
 import { fetchWithAuth } from '../services/api';
 import toast from 'react-hot-toast';
 
+const isSimilarName = (name1, name2) => {
+  if (!name1 || !name2) return false;
+  const n1 = name1.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  const n2 = name2.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+  if (n1 === n2) return true;
+
+  const levenshtein = (a, b) => {
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1);
+        }
+      }
+    }
+    return matrix[b.length][a.length];
+  };
+
+  if (levenshtein(n1, n2) <= 3) return true;
+
+  const words1 = n1.split(/\s+/).filter(w => w.length > 2);
+  const words2 = n2.split(/\s+/).filter(w => w.length > 2);
+
+  let matches = 0;
+  for (const w1 of words1) {
+    if (words2.some(w2 => w2 === w1 || levenshtein(w1, w2) <= 1)) {
+      matches++;
+    }
+  }
+
+  return matches >= 2;
+};
+
 const StudentsList = () => {
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
@@ -20,6 +58,10 @@ const StudentsList = () => {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ name: '', class_id: '', wants_hoodie: false, status: 'active' });
   const [currentUser, setCurrentUser] = useState(null);
+
+  // Similarity Check State
+  const [similarityWarning, setSimilarityWarning] = useState(false);
+  const [similarStudentName, setSimilarStudentName] = useState('');
 
   useEffect(() => {
     loadClasses();
@@ -62,6 +104,8 @@ const StudentsList = () => {
   const openNewModal = () => {
     setFormData({ name: '', class_id: '', wants_hoodie: false, status: 'active' });
     setEditingId(null);
+    setSimilarityWarning(false);
+    setSimilarStudentName('');
     setIsModalOpen(true);
   };
 
@@ -73,11 +117,30 @@ const StudentsList = () => {
       status: st.status
     });
     setEditingId(st.id);
+    setSimilarityWarning(false);
+    setSimilarStudentName('');
     setIsModalOpen(true);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!editingId && !similarityWarning) {
+      try {
+        const res = await fetchWithAuth(`/students?class_id=${formData.class_id}`);
+        const classStudents = res.data;
+        const similar = classStudents.find(st => isSimilarName(st.name, formData.name));
+
+        if (similar) {
+          setSimilarStudentName(similar.name);
+          setSimilarityWarning(true);
+          return;
+        }
+      } catch (err) {
+        console.error("Error verificando similaridad:", err);
+      }
+    }
+
     try {
       if (editingId) {
         await fetchWithAuth(`/students/${editingId}`, {
@@ -227,11 +290,11 @@ const StudentsList = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Nombre completo</label>
-                <input required type="text" className="input-field" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
+                <input required type="text" className="input-field" value={formData.name} onChange={e => { setFormData({ ...formData, name: e.target.value }); setSimilarityWarning(false); }} />
               </div>
               <div className="mb-4">
                 <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Clase del estudiante</label>
-                <select required className="input-field" value={formData.class_id} onChange={e => setFormData({ ...formData, class_id: e.target.value })}>
+                <select required className="input-field" value={formData.class_id} onChange={e => { setFormData({ ...formData, class_id: e.target.value }); setSimilarityWarning(false); }}>
                   <option value="" disabled>Selecciona una clase</option>
                   {classes.map(c => <option key={c.id} value={c.id}>{c.name} ({c.shift === 'morning' ? 'Mañana' : 'Tarde'})</option>)}
                 </select>
@@ -248,6 +311,13 @@ const StudentsList = () => {
                     <option value="active">Activo</option>
                     <option value="dropped">Desertor (Se bajó de la graduación)</option>
                   </select>
+                </div>
+              )}
+
+              {similarityWarning && (
+                <div className="mb-4" style={{ padding: '1rem', background: 'var(--color-warning)', color: '#0e0c09', borderRadius: '8px', fontSize: '0.9rem' }}>
+                  <strong>Atención:</strong> Existe un estudiante con un nombre similar en esta clase ya registrado (<b>{similarStudentName}</b>).<br /><br />
+                  Si de igual forma querés registrar al estudiante, presioná nuevamente el botón de <b>Registrar</b>.
                 </div>
               )}
 
