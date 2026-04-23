@@ -67,11 +67,11 @@ const finalize = () => {
 };
 
 if (hasChanged) {
-  if (!SMTP_USER || !SMTP_PASS) {
-    console.warn('\nADVERTENCIA: SMTP_USER y SMTP_PASS no están definidos en el archivo .env.');
-    console.warn('No se puede enviar el correo a gradu63.2026@gmail.com.');
-    console.warn('Por favor añade estas variables a tu .env usando una "contraseña de aplicación" de Gmail.\n');
-    finalize();
+  if (!SMTP_USER || !SMTP_CLIENT_ID || !SMTP_CLIENT_SECRET || !SMTP_REFRESH_TOKEN) {
+    console.error('\nERROR: Las variables de configuración de correo (SMTP_USER, SMTP_CLIENT_ID, SMTP_CLIENT_SECRET, SMTP_REFRESH_TOKEN) no están definidas en el archivo .env.');
+    console.error('No se puede enviar el correo a gradu63.2026@gmail.com.');
+    console.error('Por favor, configura estas variables en el archivo .env para habilitar el backup por correo.\n');
+    process.exit(1);
   } else {
     console.log('Enviando backup por correo...');
     const transporter = nodemailer.createTransport({
