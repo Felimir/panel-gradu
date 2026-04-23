@@ -77,9 +77,20 @@ const RafflesSection = () => {
 
   const executeTransaction = async (e) => {
     e.preventDefault();
-    if (!transactionForm.quantity || isNaN(transactionForm.quantity)) {
-      toast.error('La cantidad debe ser un número válido.');
+    const quantity = Number(transactionForm.quantity);
+
+    if (!transactionForm.quantity || isNaN(transactionForm.quantity) || quantity <= 0) {
+      toast.error('La cantidad debe ser un número válido mayor a 0.');
       return;
+    }
+
+    const st = transactionModal.student;
+    if (transactionForm.action_type === 'returned_sold' || transactionForm.action_type === 'returned_unsold') {
+      const possession = Number(st.total_delivered) - (Number(st.total_sold) + Number(st.total_unsold));
+      if (quantity > possession) {
+        toast.error(`No puedes registrar ${quantity} rifas. El estudiante solo tiene ${possession} rifas en su poder (sin rendir).`);
+        return;
+      }
     }
 
     try {
@@ -126,7 +137,7 @@ const RafflesSection = () => {
         <div className="page-header">
           <div>
             <h1 style={{ marginBottom: '0.5rem' }}>Gestión de rifas</h1>
-            <p className="text-muted">Asignación, rendición de rifas y aportes automáticos a cuotas.</p>
+            <p className="text-muted">Asignación, rendición de rifas y aportes automáticos a cuotas. Usar esta sección solo para estudiantes que su cuota haya sido pagada con el sistema de rifas.</p>
           </div>
         </div>
 
@@ -196,7 +207,7 @@ const RafflesSection = () => {
                 <tr><td colSpan="7" className="text-muted" style={{ padding: '2rem', textAlign: 'center' }}>No hay estudiantes para estos filtros.</td></tr>
               ) : (
                 students.map(st => {
-                  const possession = st.total_delivered - (st.total_sold + st.total_unsold);
+                  const possession = Number(st.total_delivered) - (Number(st.total_sold) + Number(st.total_unsold));
 
                   return (
                     <tr key={st.student_id} style={{ borderBottom: '1px solid var(--border-color)' }}>

@@ -112,6 +112,26 @@ router.post('/transaction', async (req, res) => {
     let surplus_fund = 0;
     let final_deposit_status = deposit_status || 'not_applicable';
 
+    if (action_type === 'returned_sold' || action_type === 'returned_unsold') {
+      const balanceRows = await conn.query(`
+        SELECT 
+          IFNULL(SUM(CASE WHEN action_type = 'delivered_to_student' THEN quantity ELSE 0 END), 0) as total_delivered,
+          IFNULL(SUM(CASE WHEN action_type = 'returned_sold' THEN quantity ELSE 0 END), 0) as total_sold,
+          IFNULL(SUM(CASE WHEN action_type = 'returned_unsold' THEN quantity ELSE 0 END), 0) as total_unsold
+        FROM raffle_logs 
+        WHERE student_id = ? AND period_month = ? AND period_year = ?
+      `, [student_id, period_month, period_year]);
+      
+      if (balanceRows.length > 0) {
+        const { total_delivered, total_sold, total_unsold } = balanceRows[0];
+        const possession = Number(total_delivered) - (Number(total_sold) + Number(total_unsold));
+        if (quantity > possession) {
+          await conn.rollback();
+          return res.status(400).json({ error: `No puedes registrar ${quantity} rifas. El estudiante solo tiene ${possession} rifas en su poder (sin rendir).` });
+        }
+      }
+    }
+
     if (action_type === 'returned_sold') {
       const RAFFLE_PRICE = 100;
       money_collected = parseInt(quantity) * RAFFLE_PRICE;

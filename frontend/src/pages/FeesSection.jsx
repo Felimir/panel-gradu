@@ -128,7 +128,7 @@ const FeesSection = () => {
         <div className="page-header">
           <div>
             <h1 style={{ marginBottom: '0.5rem' }}>Control de cuotas</h1>
-            <p className="text-muted">Abonos, seguimientos y liquidaciones mensuales.</p>
+            <p className="text-muted">Abonos, seguimientos y liquidaciones mensuales. Usar esta sección solo para estudiantes que durante este mes <br />no hayan solicitado ni pagado su cuota con rifas (para eso usar la sección Rifas).</p>
           </div>
           <button
             className="button-primary"
