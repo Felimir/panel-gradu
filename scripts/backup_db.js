@@ -15,7 +15,9 @@ if (PRODUCTION !== '1') {
 const DB_ROOT_PASSWORD = process.env.DB_ROOT_PASSWORD || 'root';
 const DB_NAME = process.env.DB_NAME || 'panel_gradu';
 const SMTP_USER = process.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS;
+const SMTP_CLIENT_ID = process.env.SMTP_CLIENT_ID;
+const SMTP_CLIENT_SECRET = process.env.SMTP_CLIENT_SECRET;
+const SMTP_REFRESH_TOKEN = process.env.SMTP_REFRESH_TOKEN;
 
 const BACKUP_DIR = path.join(__dirname, 'backups');
 const PREV_BACKUP_PATH = path.join(BACKUP_DIR, 'backup_prev.sql');
