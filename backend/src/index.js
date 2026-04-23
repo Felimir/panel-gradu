@@ -20,6 +20,7 @@ const financesRoutes = require('./routes/finances');
 const dashboardRoutes = require('./routes/dashboard');
 const calendarRoutes = require('./routes/calendar');
 const auditRoutes = require('./routes/audit');
+const hoodiesRoutes = require('./routes/hoodies');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
@@ -31,6 +32,7 @@ app.use('/api/finances', financesRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/calendar', calendarRoutes);
 app.use('/api/audit', auditRoutes);
+app.use('/api/hoodies', hoodiesRoutes);
 
 // Healthcheck endpoints
 const healthHandler = async (req, res) => {

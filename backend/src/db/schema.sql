@@ -130,3 +130,18 @@ CREATE TABLE IF NOT EXISTS events_calendar (
   FOREIGN KEY (assigned_user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE RESTRICT
 );
+
+CREATE TABLE IF NOT EXISTS hoodie_payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  period ENUM('initial', 'final') NOT NULL,
+  status ENUM('pending', 'paid') DEFAULT 'pending',
+  payment_method ENUM('none', 'cash', 'transfer') DEFAULT 'none',
+  amount_paid INT DEFAULT 0,
+  deposit_date DATE NULL DEFAULT NULL,
+  observations TEXT DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_student_hoodie_fee (student_id, period)
+);

@@ -13,6 +13,7 @@ import FinancesSection from './pages/FinancesSection';
 import DashboardSection from './pages/DashboardSection';
 import CalendarSection from './pages/CalendarSection';
 import AuditLogsSection from './pages/AuditLogsSection';
+import HoodiesSection from './pages/HoodiesSection';
 
 const ProtectedRoute = ({ children }) => {
   const isAuth = localStorage.getItem('isAuth') === 'true';
@@ -64,6 +65,7 @@ function App() {
         <Route path="classes" element={<ClassesList />} />
         <Route path="students" element={<StudentsList />} />
         <Route path="fees" element={<FeesSection />} />
+        <Route path="hoodies" element={<HoodiesSection />} />
         
         {/* Module 4 - Raffles */}
         <Route path="raffles" element={<RafflesSection />} />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Receipt, CreditCard, LogOut, Activity, Wallet, GraduationCap, BookOpen, CalendarDays, UserCog, ShieldCheck, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, Receipt, CreditCard, LogOut, Activity, Wallet, GraduationCap, BookOpen, CalendarDays, UserCog, ShieldCheck, Menu, X, Shirt } from 'lucide-react';
 import './AdminLayout.css';
 
 const AdminLayout = ({ apiStatus }) => {
@@ -20,6 +20,7 @@ const AdminLayout = ({ apiStatus }) => {
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
     { name: 'Estudiantes', path: '/students', icon: Users },
     { name: 'Cuotas', path: '/fees', icon: CreditCard },
+    { name: 'Buzos', path: '/hoodies', icon: Shirt },
     { name: 'Rifas', path: '/raffles', icon: Receipt },
     { name: 'Finanzas', path: '/finances', icon: Wallet },
     { name: 'Calendario', path: '/calendar', icon: CalendarDays },
